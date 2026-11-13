@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PROJECT: DILLON – THE CURSED BIRTHDAY PROJECT [LVL 20]</title>
+  <meta name="description" content="20 Years Ago, The Universe Made A Mistake. Interactive Birthday Experience for Long (Dillon) - 13/11." />
+
+  <!-- Google Fonts: Space Grotesk, Be Vietnam Pro, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN for rapid responsive layout utilities -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              bg: '#07070c',
+              panel: '#0f101a',
+              red: '#ff2a54',
+              purple: '#b829ff',
+              cyan: '#00f0ff',
+              green: '#00ff88',
+              amber: '#ffb800'
+            }
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', '"Be Vietnam Pro"', 'sans-serif'],
+            sans: ['"Be Vietnam Pro"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-void: #07070c;
+      --neon-red: #ff2a54;
+      --neon-purple: #b829ff;
+      --cyber-cyan: #00f0ff;
+      --matrix-green: #00ff88;
+      --amber-gold: #ffb800;
+    }
+
+    * {
+      box-sizing: border-box;
+      selection-background-color: #00f0ff;
+      selection-color: #07070c;
+    }
+
+    ::selection {
+      background: var(--cyber-cyan);
+      color: var(--bg-void);
+    }
+
+    body {
+      background-color: var(--bg-void);
+      color: #f4f6fb;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      overflow-x: hidden;
+      margin: 0;
+    }
+
+    /* Subtle CRT Scanline Overlay */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 90;
+      background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.28) 50%
+      );
+      background-size: 100% 4px;
+      opacity: 0.35;
+    }
+
+    /* Cyber Grid Backdrop */
+    .cyber-grid-bg {
+      background-image: 
+        linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(184, 41, 255, 0.05) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+
+    /* Glassmorphism Cards */
+    .cyber-card {
+      background: rgba(15, 16, 28, 0.76);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 240, 255, 0.22);
+      box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cyber-card:hover {
+      border-color: rgba(0, 240, 255, 0.48);
+      box-shadow: 0 16px 48px -8px rgba(0, 240, 255, 0.14), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .cyber-card-red {
+      background: rgba(22, 10, 18, 0.82);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 42, 84, 0.35);
+      box-shadow: 0 12px 40px -10px rgba(255, 42, 84, 0.18);
+    }
+
+    .cyber-card-purple {
+      background: rgba(19, 12, 29, 0.8);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(184, 41, 255, 0.32);
+      box-shadow: 0 12px 40px -10px rgba(184, 41, 255, 0.18);
+    }
+
+    .cyber-card-warm {
+      background: linear-gradient(145deg, rgba(22, 20, 34, 0.88), rgba(14, 22, 34, 0.92));
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 184, 0, 0.35);
+      box-shadow: 0 20px 60px -15px rgba(255, 184, 0, 0.15);
+    }
+
+    /* Glitch Headline Effect */
+    .glitch-text {
+      position: relative;
+      display: inline-block;
+    }
+
+    .glitch-text::before,
+    .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .glitch-text::before {
+      color: var(--neon-red);
+      z-index: -1;
+      animation: glitch-anim-1 3.5s infinite linear alternate-reverse;
+    }
+
+    .glitch-text::after {
+      color: var(--cyber-cyan);
+      z-index: -2;
+      animation: glitch-anim-2 2.8s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim-1 {
+      0%, 88% { transform: translate(0); clip-path: inset(0 0 0 0); }
+      90% { transform: translate(-3px, 1px); clip-path: inset(15% 0 60% 0); }
+      92% { transform: translate(3px, -1px); clip-path: inset(70% 0 10% 0); }
+      94% { transform: translate(-2px, 2px); clip-path: inset(40% 0 40% 0); }
+      96%, 100% { transform: translate(0); clip-path: inset(0 0 0 0); }
+    }
+
+    @keyframes glitch-anim-2 {
+      0%, 85% { transform: translate(0); clip-path: inset(0 0 0 0); }
+      87% { transform: translate(3px, -2px); clip-path: inset(60% 0 20% 0); }
+      91% { transform: translate(-3px, 1px); clip-path: inset(10% 0 75% 0); }
+      95%, 100% { transform: translate(0); clip-path: inset(0 0 0 0); }
+    }
+
+    /* Screen Shake for Part 6 */
+    @keyframes screen-shake {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      15% { transform: translate(-6px, -4px) rotate(-0.5deg); }
+      30% { transform: translate(6px, 3px) rotate(0.5deg); }
+      45% { transform: translate(-5px, 5px) rotate(-0.4deg); }
+      60% { transform: translate(5px, -3px) rotate(0.4deg); }
+      75% { transform: translate(-3px, 2px) rotate(-0.2deg); }
+    }
+
+    .shake-active {
+      animation: screen-shake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite;
+    }
+
+    /* Neon Button Styles */
+    .btn-cyber {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .btn-cyber:active {
+      transform: scale(0.97);
+    }
+
+    /* Scroll Reveal Animations */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-item.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Candle Flame Animation */
+    @keyframes flame-flicker {
+      0%, 100% { transform: scale(1) rotate(-1deg); opacity: 0.95; }
+      25% { transform: scale(1.06, 0.96) rotate(2deg); opacity: 1; }
+      50% { transform: scale(0.95, 1.08) rotate(-2deg); opacity: 0.9; }
+      75% { transform: scale(1.04, 0.98) rotate(1deg); opacity: 1; }
+    }
+
+    .candle-flame {
+      transform-origin: bottom center;
+      animation: flame-flicker 1.2s infinite ease-in-out;
+    }
+
+    /* Floating Music Note Animation */
+    @keyframes float-note {
+      0% { transform: translateY(0) scale(0.8); opacity: 0; }
+      40% { opacity: 1; }
+      100% { transform: translateY(-28px) translateX(8px) scale(1.1); opacity: 0; }
+    }
+
+    .music-note-anim {
+      animation: float-note 2s infinite ease-out;
+    }
+
+    /* Custom Cyber Cursor Ring (Desktop only) */
+    #cyber-cursor {
+      pointer-events: none;
+      position: fixed;
+      width: 28px;
+      height: 28px;
+      border: 1.5px solid var(--cyber-cyan);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: width 0.15s, height 0.15s, border-color 0.15s, background-color 0.15s;
+      mix-blend-mode: screen;
+      display: none;
+    }
+
+    @media (pointer: fine) {
+      #cyber-cursor {
+        display: block;
+      }
+    }
+
+    /* Respect Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .shake-active {
+        animation: none !important;
+      }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #07070c;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e2238;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 240, 255, 0.3);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00f0ff;
+    }
+  </style>
+</head>
+
+<body class="cyber-grid-bg relative selection:bg-cyan-400 selection:text-black">
+
+  <!-- Scanlines Overlay -->
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- Custom Cyber Cursor -->
+  <div id="cyber-cursor" aria-hidden="true"></div>
+
+  <!-- Background Ambient Particles & Fireworks Canvas -->
+  <canvas id="fx-canvas" class="fixed inset-0 pointer-events-none z-40"></canvas>
+
+  <!-- ==========================================
+       PHẦN 1: SYSTEM FAILURE – MÀN HÌNH KHỞI ĐỘNG
+       ========================================== -->
+  <section id="boot-screen" class="fixed inset-0 z-[100] bg-[#050509] flex flex-col items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div class="w-full max-w-2xl cyber-card rounded-2xl p-6 sm:p-8 border border-cyan-500/40 shadow-[0_0_50px_rgba(0,240,255,0.15)]">
+      <!-- Terminal Window Header -->
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-5">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-[#ff2a54] inline-block animate-pulse"></span>
+          <span class="w-3 h-3 rounded-full bg-[#ffb800] inline-block"></span>
+          <span class="w-3 h-3 rounded-full bg-[#00ff88] inline-block"></span>
+          <span class="ml-2 font-mono text-xs sm:text-sm text-cyan-400 tracking-wider">COSMIC_SURVEILLANCE_OS // v20.13.11</span>
+        </div>
+        <span class="font-mono text-xs text-slate-400 bg-slate-900 px-2.5 py-1 rounded border border-slate-700">PORT: 1311</span>
+      </div>
+
+      <!-- Sequential Boot Lines Container -->
+      <div id="boot-terminal-lines" class="font-mono text-sm sm:text-base space-y-2.5 min-h-[240px] text-slate-200">
+        <!-- Populated sequentially via JS -->
+      </div>
+
+      <!-- Warning Alert Box (Hidden until boot lines finish) -->
+      <div id="boot-warning-box" class="hidden mt-6 p-4 rounded-xl bg-[#ff2a54]/15 border-2 border-[#ff2a54] text-center animate-pulse">
+        <div class="flex items-center justify-center gap-2 text-[#ff2a54] font-mono font-bold text-xs sm:text-sm tracking-widest uppercase mb-1">
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          <span>SYSTEM ALERT // CODE 13-11</span>
+        </div>
+        <p class="font-mono font-bold text-white text-sm sm:text-lg tracking-wide">
+          "WARNING: THIS HUMAN WAS BORN ON A QUESTIONABLE DATE."
+        </p>
+      </div>
+
+      <!-- Accept Fate CTA Button -->
+      <div id="boot-action-wrap" class="hidden mt-7 text-center">
+        <button id="btn-accept-fate" class="btn-cyber w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#ff2a54] via-[#b829ff] to-[#00f0ff] text-white font-mono font-extrabold text-sm sm:text-base tracking-widest uppercase shadow-[0_0_30px_rgba(255,42,84,0.5)] hover:shadow-[0_0_45px_rgba(0,240,255,0.8)] cursor-pointer">
+          [ ACCEPT YOUR FATE ]
+        </button>
+        <p class="mt-3 font-mono text-xs text-slate-400">
+          *Nhấn nút để kích hoạt hệ thống & âm thanh chúc mừng sinh nhật Dillon
+        </p>
+      </div>
+
+      <!-- Skip Boot Button for quick testing -->
+      <div id="boot-skip-wrap" class="mt-4 text-right">
+        <button id="btn-skip-boot" class="font-mono text-xs text-slate-500 hover:text-cyan-400 underline cursor-pointer">
+          [ Bỏ qua hiệu ứng gõ chữ &gt;&gt; ]
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FLOATING TOAST NOTIFICATION CONTAINER
+       ========================================== -->
+  <div id="toast-container" class="fixed top-20 right-4 z-50 flex flex-col gap-3 max-w-xs sm:max-w-sm w-full pointer-events-none" aria-live="polite"></div>
+
+  <!-- ==========================================
+       STICKY CYBER NAVIGATION BAR
+       ========================================== -->
+  <header class="sticky top-0 z-40 bg-[#07070c]/85 backdrop-blur-md border-b border-cyan-500/20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#ff2a54] to-[#b829ff] flex items-center justify-center font-mono font-extrabold text-white text-sm shadow-[0_0_15px_rgba(255,42,84,0.5)]">
+          20
+        </div>
+        <div>
+          <span class="font-mono font-bold text-xs sm:text-sm tracking-wider text-white block leading-none group-hover:text-cyan-400 transition-colors">PROJECT: DILLON</span>
+          <span class="font-mono text-[10px] text-cyan-400 tracking-widest block mt-0.5">TARGET: 13/11 // LONG</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-1 lg:gap-2 font-mono text-xs">
+        <a href="#suspect" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition">01.HỒ SƠ</a>
+        <a href="#achievements" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition">02.THÀNH TỰU</a>
+        <a href="#automation" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition">03.TỰ ĐỘNG HÓA</a>
+        <a href="#roast-zone" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition">04.ROAST ZONE</a>
+        <a href="#bad-luck" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-cyan-500/10 transition">05.XÓA XUI</a>
+        <a href="#celebration" class="px-3 py-1.5 rounded-lg text-[#ff2a54] font-bold hover:bg-[#ff2a54]/10 transition">06.SINH NHẬT</a>
+        <a href="#real-message" class="px-3 py-1.5 rounded-lg text-[#ffb800] font-bold hover:bg-[#ffb800]/10 transition">07.TÂM SỰ</a>
+      </nav>
+
+      <!-- Mobile Menu Toggle -->
+      <button id="btn-mobile-menu" class="md:hidden p-2 rounded-lg border border-slate-700 text-cyan-400 hover:bg-slate-800" aria-label="Mở menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800 bg-[#0a0b14] px-4 py-3 space-y-1 font-mono text-xs">
+      <a href="#suspect" class="mobile-nav-link block px-3 py-2 rounded-lg text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400">01. HỒ SƠ ĐỐI TƯỢNG (SUSPECT)</a>
+      <a href="#achievements" class="mobile-nav-link block px-3 py-2 rounded-lg text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400">02. THÀNH TỰU SINH TỒN (ACHIEVEMENTS)</a>
+      <a href="#automation" class="mobile-nav-link block px-3 py-2 rounded-lg text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400">03. KỸ SƯ TỰ ĐỘNG HÓA (SCADA PANEL)</a>
+      <a href="#roast-zone" class="mobile-nav-link block px-3 py-2 rounded-lg text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400">04. KHU VỰC CÀ KHỊA (ROAST ZONE)</a>
+      <a href="#bad-luck" class="mobile-nav-link block px-3 py-2 rounded-lg text-slate-200 hover:bg-cyan-500/10 hover:text-cyan-400">05. XÓA VẬN XUI (ERROR 404)</a>
+      <a href="#celebration" class="mobile-nav-link block px-3 py-2 rounded-lg text-[#ff2a54] font-bold hover:bg-[#ff2a54]/10">06. THỔI NẾN SINH NHẬT (LEVEL 20)</a>
+      <a href="#real-message" class="mobile-nav-link block px-3 py-2 rounded-lg text-[#ffb800] font-bold hover:bg-[#ffb800]/10">07. LỜI NHẮN THẬT LÒNG (10 YEARS)</a>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       MAIN CONTENT WRAPPER
+       ========================================== -->
+  <main id="main-wrapper" class="relative z-10 pb-28">
+
+    <!-- ==========================================
+         HERO SECTION: THE CURSED BIRTHDAY PROJECT
+         ========================================== -->
+    <section id="hero" class="relative min-h-[88vh] flex items-center justify-center px-4 sm:px-6 py-16 sm:py-24 overflow-hidden">
+      <!-- Decorative Neon Glow Orbs -->
+      <div class="absolute top-1/4 -left-24 w-80 h-80 bg-[#ff2a54]/20 rounded-full blur-[110px] pointer-events-none"></div>
+      <div class="absolute bottom-1/4 -right-24 w-80 h-80 bg-[#00f0ff]/20 rounded-full blur-[110px] pointer-events-none"></div>
+
+      <div class="max-w-5xl mx-auto text-center relative z-10">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#ff2a54]/15 border border-[#ff2a54]/50 text-[#ff2a54] font-mono text-xs sm:text-sm mb-6 shadow-[0_0_20px_rgba(255,42,84,0.25)]">
+          <span class="w-2 h-2 rounded-full bg-[#ff2a54] animate-ping"></span>
+          <span>CASE FILE #1311-LONG // SURVEILLANCE ACTIVE</span>
+        </div>
+
+        <h1 class="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight uppercase leading-[1.06] mb-8">
+          <span class="block text-white glitch-text" data-text="DILLON">DILLON</span>
+          <span class="block bg-gradient-to-r from-[#00f0ff] via-[#b829ff] to-[#ff2a54] bg-clip-text text-transparent mt-2">
+            THE CURSED BIRTHDAY PROJECT
+          </span>
+        </h1>
+
+        <!-- Required 3-part Tagline Trio -->
+        <div class="max-w-3xl mx-auto space-y-3 sm:space-y-4 my-8 p-6 sm:p-8 rounded-2xl cyber-card border-l-4 border-l-[#00f0ff]">
+          <p class="font-mono text-base sm:text-xl md:text-2xl font-bold text-slate-200 tracking-wide">
+            "20 YEARS AGO, THE UNIVERSE MADE A MISTAKE."
+          </p>
+          <p class="font-mono text-base sm:text-xl md:text-2xl font-bold text-[#b829ff] tracking-wide">
+            "10 YEARS AGO, I MADE ANOTHER ONE BY BECOMING YOUR FRIEND."
+          </p>
+          <p class="font-mono text-lg sm:text-2xl md:text-3xl font-extrabold text-[#00f0ff] tracking-wider pt-1">
+            "AND TODAY, WE CELEBRATE BOTH."
+          </p>
+        </div>
+
+        <!-- Quick Telemetry Pills -->
+        <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-8 font-mono text-xs sm:text-sm">
+          <div class="px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300">
+            SUBJECT: <strong class="text-white">LONG (DILLON)</strong>
+          </div>
+          <div class="px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300">
+            SPAWN DATE: <strong class="text-[#ff2a54]">13/11</strong>
+          </div>
+          <div class="px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300">
+            CURRENT LEVEL: <strong class="text-[#00ff88]">LVL 20</strong>
+          </div>
+          <div class="px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-700 text-slate-300">
+            CO-OP STREAK: <strong class="text-[#ffb800]">10 YEARS</strong>
+          </div>
+        </div>
+
+        <!-- Hero Action Buttons -->
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <a href="#suspect" class="btn-cyber px-7 py-4 rounded-xl bg-[#00f0ff] text-slate-950 font-mono font-extrabold text-sm sm:text-base tracking-wider uppercase shadow-[0_0_25px_rgba(0,240,255,0.4)] hover:bg-cyan-300">
+            [ MỞ HỒ SƠ ĐỐI TƯỢNG ]
+          </a>
+          <button id="btn-hero-confetti" class="btn-cyber px-6 py-4 rounded-xl bg-slate-900/90 border border-[#b829ff] text-[#b829ff] hover:bg-[#b829ff]/15 font-mono font-bold text-sm sm:text-base tracking-wider uppercase cursor-pointer">
+            [ BẮN PHÁO HOA THỬ NGHIỆM ]
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PHẦN 2: THE SUSPECT – HỒ SƠ ĐỐI TƯỢNG
+         ========================================== -->
+    <section id="suspect" class="py-16 sm:py-24 px-4 sm:px-6 max-w-6xl mx-auto">
+      <div class="reveal-item">
+        <div class="flex items-center gap-3 font-mono text-xs sm:text-sm text-[#ff2a54] uppercase tracking-widest mb-2">
+          <span>// SECTION 02</span>
+          <span class="h-px flex-1 bg-gradient-to-r from-[#ff2a54]/60 to-transparent"></span>
+          <span>CLASSIFIED DOSSIER</span>
+        </div>
+        <h2 class="font-display font-extrabold text-3xl sm:text-5xl text-white uppercase tracking-tight mb-10">
+          MEET THE LEGENDARY PROBLEM.
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          <!-- Left Column: Suspect Avatar & Photo Slot -->
+          <div class="lg:col-span-5 cyber-card rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group">
+            <div class="flex items-center justify-between font-mono text-xs text-cyan-400 mb-4 pb-3 border-b border-slate-800">
+              <span>BIOMETRIC_SCAN // ID:1311</span>
+              <span class="px-2 py-0.5 rounded bg-[#ff2a54]/20 text-[#ff2a54] border border-[#ff2a54]/40">WATCHLIST</span>
+            </div>
+
+            <!-- Avatar Image Container with graceful SVG fallback & custom upload preview -->
+            <div class="relative aspect-square w-full max-w-[320px] mx-auto rounded-xl overflow-hidden bg-slate-950 border-2 border-cyan-500/40 flex items-center justify-center">
+              <!-- Attempt to load assets/images/dillon.jpg; if not present, hide img and show Cyber SVG Avatar -->
+              <img 
+                id="suspect-photo"
+                src="assets/images/dillon.jpg" 
+                alt="Chân dung Long (Dillon)" 
+                class="w-full h-full object-cover hidden"
+                onload="this.classList.remove('hidden'); document.getElementById('suspect-svg-fallback').classList.add('hidden');"
+                onerror="this.classList.add('hidden'); document.getElementById('suspect-svg-fallback').classList.remove('hidden');"
+              />
+
+              <!-- Built-in Cyberpunk SVG Avatar Fallback -->
+              <div id="suspect-svg-fallback" class="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-slate-900 via-[#101226] to-slate-950">
+                <svg class="w-36 h-36 mb-3" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="100" cy="100" r="88" stroke="#00f0ff" stroke-width="2" stroke-dasharray="8 6" opacity="0.5"/>
+                  <circle cx="100" cy="100" r="72" stroke="#b829ff" stroke-width="1.5" opacity="0.4"/>
+                  <!-- Cyber Hoodie / Head Silhouette -->
+                  <path d="M55 165C55 135 75 122 100 122C125 122 145 135 145 165" stroke="#00f0ff" stroke-width="4" stroke-linecap="round"/>
+                  <circle cx="100" cy="82" r="30" fill="#131629" stroke="#00f0ff" stroke-width="3.5"/>
+                  <!-- Cyber Visor Glasses -->
+                  <rect x="76" y="74" width="48" height="14" rx="4" fill="#ff2a54" stroke="#ffffff" stroke-width="1.5"/>
+                  <line x1="82" y1="81" x2="118" y2="81" stroke="#00f0ff" stroke-width="2"/>
+                  <!-- Crown / Level 20 Floating Tag -->
+                  <path d="M82 44L91 52L100 40L109 52L118 44L115 56H85L82 44Z" fill="#ffb800"/>
+                </svg>
+                <span class="font-mono font-bold text-sm text-cyan-400 tracking-wider">SUBJECT: DILLON [LVL 20]</span>
+                <span class="font-mono text-[11px] text-slate-400 mt-1">Đặt ảnh tại: <code class="text-pink-400">assets/images/dillon.jpg</code></span>
+              </div>
+
+              <!-- Scanning Laser Bar Overlay -->
+              <div class="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-75 animate-bounce pointer-events-none" style="top: 50%;"></div>
+            </div>
+
+            <!-- Optional Interactive Photo Picker for instant testing -->
+            <div class="mt-4 flex items-center justify-between gap-2 pt-3 border-t border-slate-800/80">
+              <span class="font-mono text-xs text-slate-400">STATUS: <strong class="text-[#00ff88]">ACTIVE_20_YRS</strong></span>
+              <label class="cursor-pointer font-mono text-xs text-cyan-400 hover:text-cyan-300 underline flex items-center gap-1">
+                <input type="file" accept="image/*" class="hidden" onchange="previewCustomImage(event, 'suspect-photo', 'suspect-svg-fallback')" />
+                <span>[ Chọn ảnh thử nghiệm ]</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Right Column: Dossier Data Table & Roasts -->
+          <div class="lg:col-span-7 flex flex-col justify-between gap-6">
+            <!-- Data Grid -->
+            <div class="cyber-card rounded-2xl p-6 sm:p-8">
+              <div class="flex items-center justify-between mb-6">
+                <h3 class="font-mono font-bold text-base sm:text-lg text-cyan-400 flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+                  HỒ SƠ ĐỐI TƯỢNG // DATABASE RECORD
+                </h3>
+                <span class="font-mono text-xs text-slate-400">VERIFIED: 100%</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 font-mono text-sm">
+                <div class="p-3.5 rounded-xl bg-slate-900/85 border border-slate-800 flex flex-col">
+                  <span class="text-xs text-slate-400 uppercase">Name</span>
+                  <span class="text-white font-bold text-base mt-0.5">Long</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-900/85 border border-slate-800 flex flex-col">
+                  <span class="text-xs text-slate-400 uppercase">Nickname</span>
+                  <span class="text-[#00f0ff] font-bold text-base mt-0.5">Dillon</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-900/85 border border-slate-800 flex flex-col">
+                  <span class="text-xs text-slate-400 uppercase">Age</span>
+                  <span class="text-[#00ff88] font-bold text-base mt-0.5">20</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-900/85 border border-[#ff2a54]/40 flex flex-col">
+                  <span class="text-xs text-slate-400 uppercase">Birthday</span>
+                  <span class="text-[#ff2a54] font-bold text-base mt-0.5">November 13 (13/11)</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-900/85 border border-slate-800 flex flex-col sm:col-span-2">
+                  <span class="text-xs text-slate-400 uppercase">Major</span>
+                  <span class="text-[#b829ff] font-bold text-base mt-0.5">Automation Engineering (Kỹ thuật Tự động hóa)</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-900/85 border border-slate-800 flex flex-col">
+                  <span class="text-xs text-slate-400 uppercase">Survival Time</span>
+                  <span class="text-white font-bold text-base mt-0.5">20 Years</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-900/85 border border-slate-800 flex flex-col">
+                  <span class="text-xs text-slate-400 uppercase">Friendship Duration</span>
+                  <span class="text-[#ffb800] font-bold text-base mt-0.5">10 Years</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-900/85 border border-slate-800 flex flex-col">
+                  <span class="text-xs text-slate-400 uppercase">Luck Level</span>
+                  <span class="text-[#ff2a54] font-bold text-base mt-0.5">Unknown</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-slate-900/85 border border-slate-800 flex flex-col">
+                  <span class="text-xs text-slate-400 uppercase">Personality</span>
+                  <span class="text-cyan-300 font-bold text-base mt-0.5">Classified Information</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Required Suspect Roast Notes -->
+            <div class="cyber-card-red rounded-2xl p-6 space-y-3.5">
+              <div class="font-mono text-xs font-bold text-[#ff2a54] uppercase tracking-wider flex items-center gap-2">
+                <span>[!] GHI CHÚ TỪ HỆ THỐNG GIÁM SÁT VŨ TRỤ:</span>
+              </div>
+              <blockquote class="p-3 rounded-lg bg-black/40 border-l-4 border-[#00f0ff] text-slate-200 text-sm sm:text-base">
+                "20 năm tồn tại và vẫn chưa tìm thấy nút tắt."
+              </blockquote>
+              <blockquote class="p-3 rounded-lg bg-black/40 border-l-4 border-[#ff2a54] text-slate-200 text-sm sm:text-base">
+                "Được sinh ra vào ngày 13/11. Không biết là định mệnh hay lỗi hệ thống."
+              </blockquote>
+              <blockquote class="p-3 rounded-lg bg-black/40 border-l-4 border-[#b829ff] text-slate-200 text-sm sm:text-base">
+                "Đang học Tự động hóa với hy vọng một ngày nào đó có thể tự động hóa vận may của mình."
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PHẦN 3: SURVIVAL ACHIEVEMENTS
+         ========================================== -->
+    <section id="achievements" class="py-16 sm:py-24 px-4 sm:px-6 max-w-6xl mx-auto">
+      <div class="reveal-item">
+        <div class="flex items-center gap-3 font-mono text-xs sm:text-sm text-[#00ff88] uppercase tracking-widest mb-2">
+          <span>// SECTION 03</span>
+          <span class="h-px flex-1 bg-gradient-to-r from-[#00ff88]/60 to-transparent"></span>
+          <span>GAMER TROPHIES UNLOCKED (5/5)</span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+          <h2 class="font-display font-extrabold text-3xl sm:text-5xl text-white uppercase tracking-tight">
+            CONGRATULATIONS! YOU SURVIVED.
+          </h2>
+          <span class="font-mono text-xs text-slate-400">*Nhấn vào từng Achievement để nhận hiệu ứng thưởng</span>
+        </div>
+
+        <!-- 5 Required Achievements Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Achievement 1 -->
+          <div class="achievement-card reveal-item cyber-card rounded-2xl p-6 cursor-pointer group relative overflow-hidden" onclick="triggerAchievementPop(this, '20 YEARS SURVIVED')">
+            <div class="flex items-start justify-between gap-4 mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-[#00f0ff]/15 border border-[#00f0ff]/50 flex items-center justify-center text-[#00f0ff] shrink-0 group-hover:scale-110 transition-transform">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </div>
+              <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-[#00f0ff]/15 text-[#00f0ff] border border-[#00f0ff]/30 font-bold">
+                +2000 XP
+              </span>
+            </div>
+            <div class="font-mono text-xs text-slate-400 uppercase mb-1">ACHIEVEMENT #01</div>
+            <h3 class="font-display font-bold text-xl text-white group-hover:text-[#00f0ff] transition-colors mb-2">
+              20 YEARS SURVIVED.
+            </h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              "20 năm sinh tồn trong một thế giới đầy biến động. Thành tích đáng ghi nhận."
+            </p>
+          </div>
+
+          <!-- Achievement 2 -->
+          <div class="achievement-card reveal-item cyber-card rounded-2xl p-6 cursor-pointer group relative overflow-hidden" onclick="triggerAchievementPop(this, '10 YEARS FRIENDSHIP')">
+            <div class="flex items-start justify-between gap-4 mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-[#ffb800]/15 border border-[#ffb800]/50 flex items-center justify-center text-[#ffb800] shrink-0 group-hover:scale-110 transition-transform">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              </div>
+              <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-[#ffb800]/15 text-[#ffb800] border border-[#ffb800]/40 font-bold">
+                MYTHIC RARITY (0.01%)
+              </span>
+            </div>
+            <div class="font-mono text-xs text-slate-400 uppercase mb-1">ACHIEVEMENT #02</div>
+            <h3 class="font-display font-bold text-xl text-white group-hover:text-[#ffb800] transition-colors mb-2">
+              10 YEARS FRIENDSHIP.
+            </h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              "Một người bạn đã chịu đựng Dillon suốt 10 năm. Đây mới thực sự là thành tựu hiếm có."
+            </p>
+          </div>
+
+          <!-- Achievement 3 -->
+          <div class="achievement-card reveal-item cyber-card rounded-2xl p-6 cursor-pointer group relative overflow-hidden" onclick="triggerAchievementPop(this, 'NOVEMBER 13 LEGEND')">
+            <div class="flex items-start justify-between gap-4 mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-[#ff2a54]/15 border border-[#ff2a54]/50 flex items-center justify-center text-[#ff2a54] shrink-0 group-hover:scale-110 transition-transform">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              </div>
+              <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-[#ff2a54]/15 text-[#ff2a54] border border-[#ff2a54]/40 font-bold">
+                CURSED BADGE
+              </span>
+            </div>
+            <div class="font-mono text-xs text-slate-400 uppercase mb-1">ACHIEVEMENT #03</div>
+            <h3 class="font-display font-bold text-xl text-white group-hover:text-[#ff2a54] transition-colors mb-2">
+              NOVEMBER 13 LEGEND.
+            </h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              "Sinh vào ngày 13/11 và vẫn tiếp tục hoạt động bình thường."
+            </p>
+          </div>
+
+          <!-- Achievement 4 -->
+          <div class="achievement-card reveal-item cyber-card rounded-2xl p-6 cursor-pointer group relative overflow-hidden" onclick="triggerAchievementPop(this, 'AUTOMATION STUDENT')">
+            <div class="flex items-start justify-between gap-4 mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-[#b829ff]/15 border border-[#b829ff]/50 flex items-center justify-center text-[#b829ff] shrink-0 group-hover:scale-110 transition-transform">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-[#b829ff]/15 text-[#b829ff] border border-[#b829ff]/40 font-bold">
+                ENGINEER CLASS
+              </span>
+            </div>
+            <div class="font-mono text-xs text-slate-400 uppercase mb-1">ACHIEVEMENT #04</div>
+            <h3 class="font-display font-bold text-xl text-white group-hover:text-[#b829ff] transition-colors mb-2">
+              AUTOMATION STUDENT.
+            </h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              "Đang học cách điều khiển máy móc. Chúc may mắn với việc điều khiển cuộc đời."
+            </p>
+          </div>
+
+          <!-- Achievement 5 -->
+          <div class="achievement-card reveal-item cyber-card rounded-2xl p-6 cursor-pointer group relative overflow-hidden md:col-span-2 lg:col-span-1" onclick="triggerAchievementPop(this, 'NO REFUND AVAILABLE')">
+            <div class="flex items-start justify-between gap-4 mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-[#00ff88]/15 border border-[#00ff88]/50 flex items-center justify-center text-[#00ff88] shrink-0 group-hover:scale-110 transition-transform">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+              </div>
+              <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-[#00ff88]/15 text-[#00ff88] border border-[#00ff88]/40 font-bold">
+                WARRANTY EXPIRED
+              </span>
+            </div>
+            <div class="font-mono text-xs text-slate-400 uppercase mb-1">ACHIEVEMENT #05</div>
+            <h3 class="font-display font-bold text-xl text-white group-hover:text-[#00ff88] transition-colors mb-2">
+              NO REFUND AVAILABLE.
+            </h3>
+            <p class="text-slate-300 text-sm leading-relaxed">
+              "Sản phẩm đã được kích hoạt 20 năm. Không hỗ trợ đổi trả."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PHẦN 4: AUTOMATION ENGINEER – THE FUTURE
+         ========================================== -->
+    <section id="automation" class="py-16 sm:py-24 px-4 sm:px-6 max-w-6xl mx-auto">
+      <div class="reveal-item">
+        <div class="flex items-center gap-3 font-mono text-xs sm:text-sm text-[#00f0ff] uppercase tracking-widest mb-2">
+          <span>// SECTION 04</span>
+          <span class="h-px flex-1 bg-gradient-to-r from-[#00f0ff]/60 to-transparent"></span>
+          <span>SCADA / PLC CONTROL TERMINAL</span>
+        </div>
+        <h2 class="font-display font-extrabold text-3xl sm:text-5xl text-white uppercase tracking-tight mb-8">
+          AUTOMATION ENGINEER – THE FUTURE
+        </h2>
+
+        <!-- Industrial Control Console Container -->
+        <div class="cyber-card rounded-3xl p-6 sm:p-10 border-2 border-cyan-500/35 relative overflow-hidden">
+          <!-- Top Industrial Status Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-slate-800">
+            <div class="flex items-center gap-3">
+              <span class="w-3.5 h-3.5 rounded-full bg-[#00ff88] shadow-[0_0_12px_#00ff88]"></span>
+              <span class="font-mono font-bold text-sm sm:text-base text-white">SIEMENS-DILLON S7-1311 PLC CONTROLLER</span>
+            </div>
+            <div class="flex items-center gap-4 font-mono text-xs">
+              <span class="px-3 py-1 rounded bg-slate-900 border border-slate-700 text-cyan-400">MODE: AUTO_ROAST</span>
+              <span class="px-3 py-1 rounded bg-slate-900 border border-slate-700 text-[#ffb800]">PID_LOOP: UNSTABLE</span>
+            </div>
+          </div>
+
+          <!-- Telemetry Gauges Row -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 font-mono">
+            <div class="p-4 rounded-xl bg-slate-950/90 border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 block">CPU LOAD (BRAIN)</span>
+              <span id="plc-cpu-val" class="text-xl sm:text-2xl font-extrabold text-[#00f0ff] mt-1 block">99.4%</span>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-950/90 border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 block">DEADLINE PRESSURE</span>
+              <span class="text-xl sm:text-2xl font-extrabold text-[#ffb800] mt-1 block">HIGH</span>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-950/90 border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 block">LUCK SENSOR I/O</span>
+              <span id="plc-luck-val" class="text-xl sm:text-2xl font-extrabold text-[#ff2a54] mt-1 block">0.00 mA</span>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-950/90 border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 block">ENGINEER LEVEL</span>
+              <span class="text-xl sm:text-2xl font-extrabold text-[#00ff88] mt-1 block">LVL 20</span>
+            </div>
+          </div>
+
+          <!-- 4 Required Interactive Automation Buttons -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <button onclick="runPlcCommand('luck')" class="btn-cyber p-4 rounded-xl bg-slate-900 hover:bg-cyan-950/60 border-2 border-[#00f0ff]/50 hover:border-[#00f0ff] text-left group cursor-pointer">
+              <span class="font-mono text-[10px] text-cyan-400 block mb-1">CMD_01 // RELAY</span>
+              <span class="font-mono font-extrabold text-sm sm:text-base text-white group-hover:text-[#00f0ff] transition-colors">
+                [ AUTOMATE MY LUCK ]
+              </span>
+            </button>
+
+            <button onclick="runPlcCommand('destiny')" class="btn-cyber p-4 rounded-xl bg-slate-900 hover:bg-purple-950/60 border-2 border-[#b829ff]/50 hover:border-[#b829ff] text-left group cursor-pointer">
+              <span class="font-mono text-[10px] text-[#b829ff] block mb-1">CMD_02 // ACTUATOR</span>
+              <span class="font-mono font-extrabold text-sm sm:text-base text-white group-hover:text-[#b829ff] transition-colors">
+                [ REPAIR MY DESTINY ]
+              </span>
+            </button>
+
+            <button onclick="runPlcCommand('optimize')" class="btn-cyber p-4 rounded-xl bg-slate-900 hover:bg-amber-950/60 border-2 border-[#ffb800]/50 hover:border-[#ffb800] text-left group cursor-pointer">
+              <span class="font-mono text-[10px] text-[#ffb800] block mb-1">CMD_03 // PID TUNING</span>
+              <span class="font-mono font-extrabold text-sm sm:text-base text-white group-hover:text-[#ffb800] transition-colors">
+                [ OPTIMIZE MY LIFE ]
+              </span>
+            </button>
+
+            <button onclick="runPlcCommand('diagnostic')" class="btn-cyber p-4 rounded-xl bg-slate-900 hover:bg-rose-950/60 border-2 border-[#ff2a54]/50 hover:border-[#ff2a54] text-left group cursor-pointer">
+              <span class="font-mono text-[10px] text-[#ff2a54] block mb-1">CMD_04 // SCADA TEST</span>
+              <span class="font-mono font-extrabold text-sm sm:text-base text-white group-hover:text-[#ff2a54] transition-colors">
+                [ SYSTEM DIAGNOSTIC ]
+              </span>
+            </button>
+          </div>
+
+          <!-- SCADA Terminal Output Screen -->
+          <div id="plc-output-box" class="p-5 sm:p-6 rounded-2xl bg-[#05060b] border border-cyan-500/40 font-mono mb-8 shadow-inner">
+            <div class="flex items-center justify-between text-xs text-slate-500 mb-2">
+              <span>SCADA_SERIAL_MONITOR (BAUD: 115200)</span>
+              <span id="plc-status-tag" class="text-cyan-400">WAITING FOR INPUT...</span>
+            </div>
+            <div id="plc-output-text" class="text-base sm:text-xl font-bold text-[#00ff88] min-h-[36px] flex items-center">
+              &gt; Hãy nhấn các nút điều khiển công nghiệp phía trên để chạy lệnh cho Dillon...
+            </div>
+          </div>
+
+          <!-- Required Engineer Message -->
+          <div class="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 border border-cyan-400/30 flex flex-col sm:flex-row items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-300 shrink-0 font-mono font-bold">
+              PLC
+            </div>
+            <p class="text-slate-200 text-sm sm:text-base leading-relaxed italic">
+              "Chúc ông sớm trở thành một kỹ sư tự động hóa giỏi. Mong rằng sau này ông có thể điều khiển được máy móc, hệ thống và ít nhất là vận may của chính mình."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PHẦN 5: THE ROAST ZONE
+         ========================================== -->
+    <section id="roast-zone" class="py-16 sm:py-24 px-4 sm:px-6 max-w-5xl mx-auto">
+      <div class="reveal-item">
+        <div class="flex items-center gap-3 font-mono text-xs sm:text-sm text-[#b829ff] uppercase tracking-widest mb-2">
+          <span>// SECTION 05</span>
+          <span class="h-px flex-1 bg-gradient-to-r from-[#b829ff]/60 to-transparent"></span>
+          <span>10-YEAR FRIENDSHIP ROAST ENGINE</span>
+        </div>
+        <h2 class="font-display font-extrabold text-3xl sm:text-5xl text-white uppercase tracking-tight mb-8">
+          A SPECIAL ROAST FOR A SPECIAL PROBLEM.
+        </h2>
+
+        <div class="cyber-card-purple rounded-3xl p-6 sm:p-10 text-center relative overflow-hidden">
+          <!-- Counter Badge -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#b829ff]/20 border border-[#b829ff]/50 font-mono text-xs text-purple-300 mb-6">
+            <span>ROAST DATABASE // QUOTE</span>
+            <strong id="roast-index-badge" class="text-white">#01 / 10</strong>
+          </div>
+
+          <!-- Dynamic Roast Display Area -->
+          <div class="min-h-[140px] sm:min-h-[160px] flex items-center justify-center px-2 sm:px-8 my-2">
+            <p id="roast-display-text" class="font-display font-bold text-xl sm:text-3xl text-white leading-snug">
+              "Chúc mừng sinh nhật! 20 tuổi rồi, hy vọng vận may cũng chịu lớn theo."
+            </p>
+          </div>
+
+          <!-- Controls -->
+          <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button id="btn-random-roast" class="btn-cyber w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#b829ff] to-[#ff2a54] text-white font-mono font-extrabold text-sm sm:text-base tracking-wider uppercase shadow-[0_0_25px_rgba(184,41,255,0.45)] hover:shadow-[0_0_40px_rgba(255,42,84,0.75)] cursor-pointer flex items-center justify-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span>[ RANDOM ROAST ]</span>
+            </button>
+          </div>
+
+          <p class="mt-4 font-mono text-xs text-slate-400">
+            *Hệ thống cam kết không lặp lại 2 câu liên tiếp. Nhấn tiếp để mở khóa đủ 10 câu cà khịa!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PHẦN 6: REMOVE BAD LUCK
+         ========================================== -->
+    <section id="bad-luck" class="py-16 sm:py-24 px-4 sm:px-6 max-w-5xl mx-auto">
+      <div class="reveal-item">
+        <div class="flex items-center gap-3 font-mono text-xs sm:text-sm text-[#ff2a54] uppercase tracking-widest mb-2">
+          <span>// SECTION 06</span>
+          <span class="h-px flex-1 bg-gradient-to-r from-[#ff2a54]/60 to-transparent"></span>
+          <span>KARMA DEFRAGMENTATION UTILITY</span>
+        </div>
+        <h2 class="font-display font-extrabold text-3xl sm:text-5xl text-white uppercase tracking-tight mb-8">
+          READY TO REMOVE YOUR BAD LUCK?
+        </h2>
+
+        <div id="bad-luck-panel" class="cyber-card-red rounded-3xl p-6 sm:p-10 text-center relative overflow-hidden">
+          <p class="text-slate-300 max-w-xl mx-auto text-sm sm:text-base mb-8">
+            Hệ thống phát hiện ngày sinh <strong class="text-[#ff2a54] font-mono">13/11</strong> đi kèm một lượng dữ liệu vận xui không xác định. Hãy nhấn nút bên dưới để tiến hành quét và xóa sạch vận xui cho tuổi 20.
+          </p>
+
+          <!-- Trigger Button -->
+          <div id="bad-luck-trigger-wrap">
+            <button id="btn-remove-luck" class="btn-cyber px-8 py-5 rounded-2xl bg-[#ff2a54] hover:bg-rose-500 text-white font-mono font-extrabold text-base sm:text-xl tracking-widest uppercase shadow-[0_0_35px_rgba(255,42,84,0.6)] cursor-pointer">
+              [ REMOVE ALL BAD LUCK ]
+            </button>
+          </div>
+
+          <!-- Scanning Progress UI (Hidden initially) -->
+          <div id="bad-luck-progress-wrap" class="hidden max-w-xl mx-auto my-6 text-left font-mono">
+            <div class="flex justify-between text-xs sm:text-sm text-cyan-400 mb-2">
+              <span id="bad-luck-scan-status">SCANNING 13/11 CURSE SECTORS...</span>
+              <span id="bad-luck-scan-percent">0%</span>
+            </div>
+            <div class="w-full h-4 rounded-full bg-slate-950 border border-cyan-500/50 overflow-hidden p-0.5">
+              <div id="bad-luck-progress-bar" class="h-full bg-gradient-to-r from-[#00f0ff] via-[#b829ff] to-[#ff2a54] rounded-full transition-all duration-150" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Error 404 Result Box (Hidden initially) -->
+          <div id="bad-luck-result-wrap" class="hidden mt-8 max-w-2xl mx-auto">
+            <div class="p-6 sm:p-8 rounded-2xl bg-black/80 border-2 border-[#ff2a54] shadow-[0_0_40px_rgba(255,42,84,0.35)]">
+              <div class="inline-block px-3 py-1 rounded bg-[#ff2a54] text-black font-mono font-extrabold text-xs uppercase tracking-widest mb-3">
+                CRITICAL EXCEPTION
+              </div>
+              <h3 class="font-mono font-extrabold text-3xl sm:text-5xl text-[#ff2a54] tracking-tight">
+                ERROR 404.
+              </h3>
+              <p class="font-mono font-bold text-xl sm:text-2xl text-white mt-1 mb-4">
+                LUCK NOT FOUND.
+              </p>
+
+              <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-700 font-mono text-left text-xs sm:text-sm text-slate-300 space-y-1 mb-6">
+                <div class="text-slate-400">SYSTEM MESSAGE:</div>
+                <div class="text-white font-bold text-sm sm:text-base">
+                  "We tried our best. Unfortunately, the problem appears to be permanent."
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl bg-[#00f0ff]/15 border border-[#00f0ff] text-[#00f0ff] font-mono font-extrabold text-sm sm:text-lg tracking-wide">
+                "CONGRATULATIONS! YOU ARE STILL THE SAME DILLON."
+              </div>
+
+              <button id="btn-retry-luck" class="mt-6 font-mono text-xs text-slate-400 hover:text-white underline cursor-pointer">
+                [ Thử quét lại lần nữa (Dù kết quả vẫn thế) ]
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PHẦN 7: BIRTHDAY CELEBRATION
+         ========================================== -->
+    <section id="celebration" class="py-16 sm:py-24 px-4 sm:px-6 max-w-5xl mx-auto">
+      <div class="reveal-item text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#00ff88]/15 border border-[#00ff88]/50 text-[#00ff88] font-mono text-xs sm:text-sm mb-4">
+          <span>★ MAIN EVENT // CLIMAX STAGE ★</span>
+        </div>
+
+        <h2 class="font-display font-extrabold text-4xl sm:text-6xl text-white uppercase tracking-tight">
+          HAPPY 20TH BIRTHDAY, DILLON!
+        </h2>
+        <p class="font-mono font-extrabold text-xl sm:text-3xl bg-gradient-to-r from-[#00f0ff] via-[#00ff88] to-[#ffb800] bg-clip-text text-transparent mt-2 mb-8">
+          LEVEL 20 UNLOCKED.
+        </p>
+
+        <!-- Glowing Number 20 + Interactive Birthday Cake Stage -->
+        <div class="cyber-card rounded-3xl p-6 sm:p-12 border-2 border-[#00f0ff]/50 relative overflow-hidden">
+          <!-- Glowing 20 Emblem -->
+          <div class="mb-6">
+            <span id="glowing-20" class="font-display font-extrabold text-6xl sm:text-8xl text-transparent bg-clip-text bg-gradient-to-b from-white via-[#00f0ff] to-[#b829ff] drop-shadow-[0_0_35px_rgba(0,240,255,0.85)] select-none inline-block">
+              20
+            </span>
+          </div>
+
+          <!-- Interactive Cyber Cake SVG -->
+          <div id="interactive-cake" onclick="blowOutCandles()" class="cursor-pointer max-w-xs mx-auto my-4 group relative" title="Nhấn vào bánh để thổi nến!">
+            <svg class="w-64 h-64 mx-auto overflow-visible" viewBox="0 0 240 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Plate -->
+              <ellipse cx="120" cy="198" rx="95" ry="12" fill="#1e293b" stroke="#00f0ff" stroke-width="2"/>
+              <!-- Bottom Cake Tier -->
+              <rect x="45" y="138" width="150" height="58" rx="10" fill="#17192b" stroke="#b829ff" stroke-width="3"/>
+              <path d="M45 154C60 164 75 146 90 156C105 166 120 146 135 156C150 166 165 146 195 156" stroke="#ff2a54" stroke-width="4" stroke-linecap="round"/>
+              <!-- Top Cake Tier -->
+              <rect x="68" y="88" width="104" height="50" rx="8" fill="#1e2238" stroke="#00f0ff" stroke-width="3"/>
+              <path d="M68 104C82 112 96 96 110 104C124 112 138 96 152 104C160 109 166 102 172 104" stroke="#00ff88" stroke-width="3.5" stroke-linecap="round"/>
+              <!-- "DILLON 20" Text on Cake -->
+              <text x="120" y="176" text-anchor="middle" fill="#ffffff" font-family="monospace" font-weight="bold" font-size="14" letter-spacing="2">DILLON // 20</text>
+
+              <!-- 3 Candles -->
+              <!-- Candle 1 -->
+              <rect x="86" y="54" width="10" height="34" rx="3" fill="#ff2a54"/>
+              <!-- Candle 2 (Center) -->
+              <rect x="115" y="48" width="10" height="40" rx="3" fill="#00f0ff"/>
+              <!-- Candle 3 -->
+              <rect x="144" y="54" width="10" height="34" rx="3" fill="#b829ff"/>
+
+              <!-- Candle Flames Group (Extinguished on click) -->
+              <g id="cake-flames">
+                <path class="candle-flame" d="M91 28C91 28 83 39 83 45C83 49.4 86.6 53 91 53C95.4 53 99 49.4 99 45C99 39 91 28 91 28Z" fill="#ffb800"/>
+                <circle cx="91" cy="46" r="3.5" fill="#ffffff"/>
+
+                <path class="candle-flame" d="M120 20C120 20 111 33 111 40C111 45 115 49 120 49C125 49 129 45 129 40C129 33 120 20 120 20Z" fill="#ffb800"/>
+                <circle cx="120" cy="41" r="4" fill="#ffffff"/>
+
+                <path class="candle-flame" d="M149 28C149 28 141 39 141 45C141 49.4 144.6 53 149 53C153.4 53 157 49.4 157 45C157 39 149 28 149 28Z" fill="#ffb800"/>
+                <circle cx="149" cy="46" r="3.5" fill="#ffffff"/>
+              </g>
+
+              <!-- Smoke effect (Shown after blowing candles) -->
+              <g id="cake-smoke" class="hidden" stroke="#94a3b8" stroke-width="2" stroke-linecap="round">
+                <path d="M91 48C88 38 95 30 90 20"/>
+                <path d="M120 42C124 32 116 24 122 14"/>
+                <path d="M149 48C146 38 153 30 148 20"/>
+              </g>
+            </svg>
+            <p id="cake-status-hint" class="font-mono text-xs text-cyan-400 group-hover:text-white transition-colors">
+              [ Nhấn trực tiếp vào bánh hoặc nút bên dưới để thổi nến! ]
+            </p>
+          </div>
+
+          <!-- Celebration Interactive Buttons -->
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <button id="btn-blow-candles" onclick="blowOutCandles()" class="btn-cyber px-7 py-4 rounded-xl bg-gradient-to-r from-[#00f0ff] to-[#00ff88] text-slate-950 font-mono font-extrabold text-sm sm:text-base tracking-wider uppercase shadow-[0_0_30px_rgba(0,240,255,0.45)] cursor-pointer">
+              [ BLOW THE CANDLES ]
+            </button>
+
+            <button id="btn-make-wish" onclick="triggerMakeAWish()" class="btn-cyber px-7 py-4 rounded-xl bg-slate-900 border-2 border-[#ffb800] text-[#ffb800] hover:bg-[#ffb800]/15 font-mono font-extrabold text-sm sm:text-base tracking-wider uppercase cursor-pointer">
+              [ MAKE A WISH ]
+            </button>
+          </div>
+
+          <!-- Make A Wish Output Box -->
+          <div id="wish-response-box" class="hidden mt-8 max-w-xl mx-auto p-5 rounded-2xl bg-[#ffb800]/15 border border-[#ffb800] text-center">
+            <p class="font-mono font-bold text-base sm:text-xl text-[#ffb800]">
+              "Hopefully this wish has better luck than your birthday date."
+            </p>
+            <p class="text-xs font-mono text-slate-300 mt-2">
+              Hệ thống đã ghi nhận điều ước tuổi 20 của Long vào cơ sở dữ liệu vũ trụ!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PHẦN 8: THE REAL MESSAGE
+         ========================================== -->
+    <section id="real-message" class="py-16 sm:py-24 px-4 sm:px-6 max-w-4xl mx-auto">
+      <div class="reveal-item">
+        <div class="flex items-center gap-3 font-mono text-xs sm:text-sm text-[#ffb800] uppercase tracking-widest mb-2">
+          <span>// SECTION 08</span>
+          <span class="h-px flex-1 bg-gradient-to-r from-[#ffb800]/60 to-transparent"></span>
+          <span>DECRYPTED MEMORY FILE // 10 YEARS</span>
+        </div>
+
+        <div class="cyber-card-warm rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+          <!-- Warm Ambient Glow -->
+          <div class="absolute -top-24 -right-24 w-64 h-64 bg-[#ffb800]/15 rounded-full blur-[80px] pointer-events-none"></div>
+
+          <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-[#ffb800] tracking-tight mb-8">
+            OKAY, JOKES ASIDE...
+          </h2>
+
+          <div class="space-y-5 text-slate-100 text-base sm:text-lg leading-relaxed font-normal">
+            <p class="font-semibold text-xl text-white">
+              Chúc mừng sinh nhật tuổi 20, Long.
+            </p>
+            <p>
+              Đùa thì đùa vậy thôi, chứ chơi với nhau 10 năm cũng là một quãng thời gian không ngắn.
+            </p>
+            <p>
+              Từ những ngày còn nhỏ đến bây giờ, mỗi đứa đều dần có cuộc sống và con đường riêng. Mong rằng ông sẽ luôn mạnh khỏe, học hành thuận lợi, sớm đạt được những điều mình muốn và trở thành một kỹ sư thật giỏi.
+            </p>
+            <p>
+              Chúc ông tuổi 20 có thật nhiều cơ hội tốt, nhiều niềm vui và gặp được những người đáng quý.
+            </p>
+            <p>
+              Cảm ơn vì đã đồng hành suốt 10 năm qua. Hy vọng chúng ta còn có thêm nhiều năm để tiếp tục những câu chuyện dở khóc dở cười.
+            </p>
+            <p>
+              Cuối cùng, dù sinh vào ngày 13/11 thì cũng không sao.
+            </p>
+            <p class="text-[#00f0ff] font-medium">
+              Ít nhất ông vẫn may mắn vì có tôi làm bạn.
+            </p>
+            <p class="font-display font-extrabold text-2xl sm:text-3xl text-[#ffb800] pt-4">
+              HAPPY BIRTHDAY, DILLON!
+            </p>
+          </div>
+
+          <!-- Customizable Photo Memory Slots (Graceful Fallbacks if no images provided yet) -->
+          <div class="mt-10 pt-8 border-t border-slate-700/60">
+            <div class="flex items-center justify-between mb-4">
+              <span class="font-mono text-xs text-slate-300 uppercase tracking-wider">
+                // KHO LƯU TRỮ ẢNH KỶ NIỆM (CÓ THỂ THÊM ẢNH SAU NÀY)
+              </span>
+              <span class="font-mono text-[11px] text-amber-400">assets/images/</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Memory Slot 1 -->
+              <div class="rounded-xl bg-slate-900/90 border border-slate-700 p-4 flex flex-col items-center justify-center relative overflow-hidden min-h-[180px]">
+                <img 
+                  id="mem-img-1"
+                  src="assets/images/memory-1.jpg" 
+                  alt="Kỷ niệm 1" 
+                  class="w-full h-44 object-cover rounded-lg hidden"
+                  onload="this.classList.remove('hidden'); document.getElementById('mem-fallback-1').classList.add('hidden');"
+                  onerror="this.classList.add('hidden'); document.getElementById('mem-fallback-1').classList.remove('hidden');"
+                />
+                <div id="mem-fallback-1" class="text-center p-4">
+                  <div class="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-400/40 flex items-center justify-center mx-auto mb-2 text-amber-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  </div>
+                  <p class="font-mono text-xs text-slate-300 font-bold">SLOT ẢNH KỶ NIỆM #01</p>
+                  <p class="font-mono text-[11px] text-slate-400 mt-0.5">Đặt file: <code class="text-amber-400">assets/images/memory-1.jpg</code></p>
+                  <label class="mt-2 inline-block cursor-pointer font-mono text-[11px] text-cyan-400 hover:underline">
+                    <input type="file" accept="image/*" class="hidden" onchange="previewCustomImage(event, 'mem-img-1', 'mem-fallback-1')" />
+                    [ Tải ảnh lên xem thử ]
+                  </label>
+                </div>
+              </div>
+
+              <!-- Memory Slot 2 -->
+              <div class="rounded-xl bg-slate-900/90 border border-slate-700 p-4 flex flex-col items-center justify-center relative overflow-hidden min-h-[180px]">
+                <img 
+                  id="mem-img-2"
+                  src="assets/images/memory-2.jpg" 
+                  alt="Kỷ niệm 2" 
+                  class="w-full h-44 object-cover rounded-lg hidden"
+                  onload="this.classList.remove('hidden'); document.getElementById('mem-fallback-2').classList.add('hidden');"
+                  onerror="this.classList.add('hidden'); document.getElementById('mem-fallback-2').classList.remove('hidden');"
+                />
+                <div id="mem-fallback-2" class="text-center p-4">
+                  <div class="w-12 h-12 rounded-full bg-cyan-500/10 border border-cyan-400/40 flex items-center justify-center mx-auto mb-2 text-cyan-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  </div>
+                  <p class="font-mono text-xs text-slate-300 font-bold">SLOT ẢNH KỶ NIỆM #02</p>
+                  <p class="font-mono text-[11px] text-slate-400 mt-0.5">Đặt file: <code class="text-cyan-400">assets/images/memory-2.jpg</code></p>
+                  <label class="mt-2 inline-block cursor-pointer font-mono text-[11px] text-cyan-400 hover:underline">
+                    <input type="file" accept="image/*" class="hidden" onchange="previewCustomImage(event, 'mem-img-2', 'mem-fallback-2')" />
+                    [ Tải ảnh lên xem thử ]
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PHẦN 9: FINAL SCREEN
+         ========================================== -->
+    <section id="final-screen" class="py-20 sm:py-28 px-4 sm:px-6 max-w-4xl mx-auto text-center">
+      <div class="reveal-item cyber-card rounded-3xl p-8 sm:p-14 border border-cyan-500/40">
+        <p class="font-mono text-sm sm:text-base text-slate-400 uppercase tracking-widest mb-2">
+          THE END?
+        </p>
+        <h2 class="font-display font-extrabold text-3xl sm:text-5xl text-white uppercase tracking-tight mb-6">
+          NOT REALLY.
+        </h2>
+
+        <div class="space-y-2 font-mono text-xl sm:text-3xl font-extrabold my-8">
+          <p class="text-[#00f0ff]">10 YEARS DOWN.</p>
+          <p class="text-[#b829ff]">MANY MORE TO GO.</p>
+          <p class="text-white pt-2">HAPPY 20TH BIRTHDAY, DILLON!</p>
+        </div>
+
+        <div class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-[#00ff88]/15 border border-[#00ff88] text-[#00ff88] font-mono font-bold text-xs sm:text-sm tracking-wider mb-10">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#00ff88] animate-ping"></span>
+          <span>SYSTEM STATUS: FRIENDSHIP STILL ACTIVE.</span>
+        </div>
+
+        <div>
+          <button id="btn-restart-experience" class="btn-cyber px-8 py-4 rounded-xl bg-gradient-to-r from-[#00f0ff] via-[#b829ff] to-[#ff2a54] text-white font-mono font-extrabold text-sm sm:text-base tracking-wider uppercase shadow-[0_0_30px_rgba(0,240,255,0.4)] cursor-pointer">
+            [ RESTART THE EXPERIENCE ]
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       FLOATING MUSIC PLAYER (BOTTOM LEFT/RIGHT)
+       ========================================== -->
+  <aside id="music-player-dock" class="fixed bottom-4 left-4 z-50 max-w-[330px] w-[calc(100vw-5.5rem)] sm:w-auto">
+    <!-- Hidden HTML5 Audio Element pointing to user's relative path -->
+    <audio id="bg-audio" src="assets/audio/birthday.mp3" preload="auto" loop></audio>
+
+    <div class="cyber-card rounded-2xl p-3 sm:p-3.5 border border-cyan-500/40 shadow-[0_0_25px_rgba(0,0,0,0.85)] flex items-center gap-3">
+      <!-- Play / Pause Button with Floating Musical Notes -->
+      <div class="relative">
+        <button id="btn-music-toggle" class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#00f0ff] to-[#b829ff] text-slate-950 flex items-center justify-center font-bold shadow-[0_0_15px_rgba(0,240,255,0.5)] cursor-pointer" aria-label="Play or Pause Music">
+          <!-- Play Icon -->
+          <svg id="icon-play" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+          <!-- Pause Icon -->
+          <svg id="icon-pause" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M5.75 3a.75.75 0 00-.75.75v12.5c0 .414.336.75.75.75h1.5a.75.75 0 00.75-.75V3.75A.75.75 0 007.25 3h-1.5zM12.75 3a.75.75 0 00-.75.75v12.5c0 .414.336.75.75.75h1.5a.75.75 0 00.75-.75V3.75a.75.75 0 00-.75-.75h-1.5z"/></svg>
+        </button>
+        <!-- Animated Note Icon when playing -->
+        <span id="music-note-float" class="hidden absolute -top-2 -right-1 text-cyan-400 font-bold text-sm pointer-events-none music-note-anim">♪</span>
+      </div>
+
+      <!-- Track Info & Volume Controls -->
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center justify-between gap-2">
+          <span id="music-track-title" class="font-mono font-bold text-xs text-white truncate block">
+            birthday.mp3 // CYBER_BEAT
+          </span>
+          <button id="btn-music-mute" class="text-slate-400 hover:text-cyan-400 cursor-pointer" title="Mute / Unmute">
+            <svg id="icon-vol-on" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+            <svg id="icon-vol-mute" class="w-4 h-4 hidden text-[#ff2a54]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+          </button>
+        </div>
+
+        <!-- Volume Slider -->
+        <div class="flex items-center gap-2 mt-1.5">
+          <input 
+            id="music-volume-slider" 
+            type="range" 
+            min="0" 
+            max="1" 
+            step="0.05" 
+            value="0.6"
+            class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#00f0ff]"
+            aria-label="Volume"
+          />
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================
+       BACK TO TOP BUTTON
+       ========================================== -->
+  <button id="btn-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-4 right-4 z-50 w-12 h-12 rounded-2xl cyber-card border border-cyan-500/40 text-cyan-400 hover:text-white hover:bg-cyan-500/20 flex items-center justify-center shadow-lg transition-all opacity-0 pointer-events-none cursor-pointer" aria-label="Lên đầu trang">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+  </button>
+
+  <!-- ==========================================
+       JAVASCRIPT ENGINE (ALL INTERACTIONS & AUDIO)
+       ========================================== -->
+  <script>
+    /**************************************************************
+     * 1. SOUND SYSTEM: MP3 + WEB AUDIO SYNTHESIZER FALLBACK
+     * Works with assets/audio/birthday.mp3 & assets/audio/sfx/*.mp3
+     * AND automatically synthesizes sounds if files are missing!
+     **************************************************************/
+    let audioCtx = null;
+    let isMusicPlaying = false;
+    let isMuted = false;
+    let currentVolume = 0.6;
+    let usingSynthFallback = false;
+    let synthIntervalId = null;
+    let synthNoteIndex = 0;
+
+    const bgAudioEl = document.getElementById('bg-audio');
+    const btnMusicToggle = document.getElementById('btn-music-toggle');
+    const iconPlay = document.getElementById('icon-play');
+    const iconPause = document.getElementById('icon-pause');
+    const musicNoteFloat = document.getElementById('music-note-float');
+    const musicTrackTitle = document.getElementById('music-track-title');
+    const volumeSlider = document.getElementById('music-volume-slider');
+    const btnMusicMute = document.getElementById('btn-music-mute');
+    const iconVolOn = document.getElementById('icon-vol-on');
+    const iconVolMute = document.getElementById('icon-vol-mute');
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Check if user's birthday.mp3 fails to load; switch to playful Web Audio Synth fallback
+    bgAudioEl.addEventListener('error', () => {
+      usingSynthFallback = true;
+      musicTrackTitle.textContent = 'CYBER_BIRTHDAY_SYNTH (AUTO)';
+    });
+
+    // Playful Cyber-Meme Happy Birthday Chiptune Notes (Hz)
+    const happyBirthdayMelody = [
+      { f: 261.63, d: 0.22 }, { f: 261.63, d: 0.22 }, { f: 293.66, d: 0.42 }, { f: 261.63, d: 0.42 }, { f: 349.23, d: 0.42 }, { f: 329.63, d: 0.75 },
+      { f: 261.63, d: 0.22 }, { f: 261.63, d: 0.22 }, { f: 293.66, d: 0.42 }, { f: 261.63, d: 0.42 }, { f: 392.00, d: 0.42 }, { f: 349.23, d: 0.75 },
+      { f: 261.63, d: 0.22 }, { f: 261.63, d: 0.22 }, { f: 523.25, d: 0.42 }, { f: 440.00, d: 0.42 }, { f: 349.23, d: 0.42 }, { f: 329.63, d: 0.42 }, { f: 293.66, d: 0.75 },
+      { f: 466.16, d: 0.22 }, { f: 466.16, d: 0.22 }, { f: 440.00, d: 0.42 }, { f: 349.23, d: 0.42 }, { f: 392.00, d: 0.42 }, { f: 349.23, d: 0.85 }
+    ];
+
+    function startSynthLoop() {
+      stopSynthLoop();
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      synthIntervalId = setInterval(() => {
+        if (!isMusicPlaying || isMuted) return;
+        const note = happyBirthdayMelody[synthNoteIndex % happyBirthdayMelody.length];
+        synthNoteIndex++;
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(note.f, ctx.currentTime);
+
+        const vol = Math.max(0.001, currentVolume * 0.14);
+        gain.gain.setValueAtTime(vol, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + note.d);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + note.d);
+      }, 360);
+    }
+
+    function stopSynthLoop() {
+      if (synthIntervalId) {
+        clearInterval(synthIntervalId);
+        synthIntervalId = null;
+      }
+    }
+
+    function updateMusicUI() {
+      if (isMusicPlaying) {
+        iconPlay.classList.add('hidden');
+        iconPause.classList.remove('hidden');
+        musicNoteFloat.classList.remove('hidden');
+      } else {
+        iconPlay.classList.remove('hidden');
+        iconPause.classList.add('hidden');
+        musicNoteFloat.classList.add('hidden');
+      }
+    }
+
+    function startMusicPlayback() {
+      bgAudioEl.volume = isMuted ? 0 : currentVolume;
+      if (!usingSynthFallback) {
+        const playPromise = bgAudioEl.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            isMusicPlaying = true;
+            updateMusicUI();
+          }).catch(() => {
+            // Fallback to Web Audio Synth if file is missing or blocked
+            usingSynthFallback = true;
+            musicTrackTitle.textContent = 'CYBER_BIRTHDAY_SYNTH (AUTO)';
+            isMusicPlaying = true;
+            startSynthLoop();
+            updateMusicUI();
+          });
+        }
+      } else {
+        isMusicPlaying = true;
+        startSynthLoop();
+        updateMusicUI();
+      }
+    }
+
+    function pauseMusicPlayback() {
+      isMusicPlaying = false;
+      try { bgAudioEl.pause(); } catch (e) {}
+      stopSynthLoop();
+      updateMusicUI();
+    }
+
+    btnMusicToggle.addEventListener('click', () => {
+      if (isMusicPlaying) {
+        pauseMusicPlayback();
+      } else {
+        startMusicPlayback();
+      }
+    });
+
+    volumeSlider.addEventListener('input', (e) => {
+      currentVolume = parseFloat(e.target.value);
+      bgAudioEl.volume = isMuted ? 0 : currentVolume;
+      if (currentVolume === 0) {
+        isMuted = true;
+        iconVolOn.classList.add('hidden');
+        iconVolMute.classList.remove('hidden');
+      } else if (isMuted) {
+        isMuted = false;
+        iconVolOn.classList.remove('hidden');
+        iconVolMute.classList.add('hidden');
+      }
+    });
+
+    btnMusicMute.addEventListener('click', () => {
+      isMuted = !isMuted;
+      bgAudioEl.muted = isMuted;
+      if (isMuted) {
+        iconVolOn.classList.add('hidden');
+        iconVolMute.classList.remove('hidden');
+      } else {
+        iconVolOn.classList.remove('hidden');
+        iconVolMute.classList.add('hidden');
+      }
+    });
+
+    // Sound Effects Engine: Tries assets/audio/sfx/{name}.mp3 first, falls back to Web Audio API
+    function playSfx(type) {
+      if (isMuted) return;
+      const sfxMap = {
+        boot: 'assets/audio/sfx/boot.mp3',
+        error: 'assets/audio/sfx/error.mp3',
+        achievement: 'assets/audio/sfx/achievement.mp3',
+        confetti: 'assets/audio/sfx/confetti.mp3',
+        notify: 'assets/audio/sfx/notify.mp3'
+      };
+
+      // Always play responsive Web Audio synth effect so there is zero latency or missing file error
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+
+      if (type === 'boot') {
+        [220, 330, 440, 660, 880].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+          gain.gain.setValueAtTime(0.08 * currentVolume, now + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.15);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + idx * 0.07);
+          osc.stop(now + idx * 0.07 + 0.15);
+        });
+      } else if (type === 'error') {
+        [160, 130].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.18);
+          gain.gain.setValueAtTime(0.12 * currentVolume, now + idx * 0.18);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.18 + 0.22);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + idx * 0.18);
+          osc.stop(now + idx * 0.18 + 0.22);
+        });
+      } else if (type === 'achievement') {
+        [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+          gain.gain.setValueAtTime(0.12 * currentVolume, now + idx * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.25);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + idx * 0.08);
+          osc.stop(now + idx * 0.08 + 0.25);
+        });
+      } else if (type === 'confetti') {
+        [440, 554.37, 659.25, 880].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+          gain.gain.setValueAtTime(0.14 * currentVolume, now + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.3);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + idx * 0.06);
+          osc.stop(now + idx * 0.06 + 0.3);
+        });
+      } else if (type === 'notify') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, now);
+        osc.frequency.setValueAtTime(880, now + 0.08);
+        gain.gain.setValueAtTime(0.08 * currentVolume, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.2);
+      }
+
+      // Optional: if user placed custom sfx file, play it softly on top
+      if (sfxMap[type]) {
+        const audio = new Audio(sfxMap[type]);
+        audio.volume = currentVolume * 0.7;
+        audio.play().catch(() => {});
+      }
+    }
+
+    /**************************************************************
+     * 2. PART 1: BOOT SCREEN TERMINAL SEQUENCE
+     **************************************************************/
+    const bootLinesData = [
+      { text: 'INITIALIZING SYSTEM...', color: 'text-slate-300' },
+      { text: 'SCANNING BIRTHDAY DATABASE...', color: 'text-slate-300' },
+      { text: 'UNUSUAL DATE DETECTED.', color: 'text-[#ffb800] font-bold' },
+      { text: 'DATE: 13/11', color: 'text-[#ff2a54] font-bold' },
+      { text: 'SUBJECT: DILLON', color: 'text-[#00f0ff] font-bold' },
+      { text: 'AGE: 20', color: 'text-[#00ff88] font-bold' },
+      { text: 'FRIENDSHIP RECORD: 10 YEARS', color: 'text-[#b829ff] font-bold' },
+      { text: 'LUCK STATUS: NOT FOUND.', color: 'text-[#ff2a54] font-extrabold' }
+    ];
+
+    const bootTerminalContainer = document.getElementById('boot-terminal-lines');
+    const bootWarningBox = document.getElementById('boot-warning-box');
+    const bootActionWrap = document.getElementById('boot-action-wrap');
+    const bootSkipWrap = document.getElementById('boot-skip-wrap');
+    const bootScreen = document.getElementById('boot-screen');
+    let bootTimeoutIds = [];
+
+    function runBootSequence() {
+      bootTerminalContainer.innerHTML = '';
+      bootWarningBox.classList.add('hidden');
+      bootActionWrap.classList.add('hidden');
+      bootSkipWrap.classList.remove('hidden');
+      bootTimeoutIds.forEach(clearTimeout);
+      bootTimeoutIds = [];
+
+      bootLinesData.forEach((item, index) => {
+        const tid = setTimeout(() => {
+          const lineEl = document.createElement('div');
+          lineEl.className = `flex items-center gap-2 ${item.color}`;
+          lineEl.innerHTML = `<span class="text-cyan-500 select-none">&gt;</span> <span>${item.text}</span>`;
+          bootTerminalContainer.appendChild(lineEl);
+          playSfx('notify');
+
+          if (index === bootLinesData.length - 1) {
+            const finalTid = setTimeout(() => {
+              bootWarningBox.classList.remove('hidden');
+              bootActionWrap.classList.remove('hidden');
+              bootSkipWrap.classList.add('hidden');
+              playSfx('error');
+            }, 450);
+            bootTimeoutIds.push(finalTid);
+          }
+        }, index * 380);
+        bootTimeoutIds.push(tid);
+      });
+    }
+
+    function finishBootImmediately() {
+      bootTimeoutIds.forEach(clearTimeout);
+      bootTerminalContainer.innerHTML = '';
+      bootLinesData.forEach((item) => {
+        const lineEl = document.createElement('div');
+        lineEl.className = `flex items-center gap-2 ${item.color}`;
+        lineEl.innerHTML = `<span class="text-cyan-500 select-none">&gt;</span> <span>${item.text}</span>`;
+        bootTerminalContainer.appendChild(lineEl);
+      });
+      bootWarningBox.classList.remove('hidden');
+      bootActionWrap.classList.remove('hidden');
+      bootSkipWrap.classList.add('hidden');
+    }
+
+    document.getElementById('btn-skip-boot').addEventListener('click', finishBootImmediately);
+
+    document.getElementById('btn-accept-fate').addEventListener('click', () => {
+      playSfx('boot');
+      startMusicPlayback();
+      bootScreen.classList.add('opacity-0', 'pointer-events-none', 'transition-opacity', 'duration-500');
+      setTimeout(() => {
+        bootScreen.classList.add('hidden');
+        launchConfettiBurst(70);
+        scheduleRandomToasts();
+      }, 500);
+    });
+
+    /**************************************************************
+     * 3. PART 3: ACHIEVEMENTS INTERACTION
+     **************************************************************/
+    function triggerAchievementPop(cardEl, title) {
+      playSfx('achievement');
+      cardEl.classList.add('ring-2', 'ring-[#00ff88]');
+      setTimeout(() => cardEl.classList.remove('ring-2', 'ring-[#00ff88]'), 800);
+      showCyberToast(`ACHIEVEMENT VERIFIED: ${title}`, 'green');
+      launchConfettiBurst(35);
+    }
+
+    /**************************************************************
+     * 4. PART 4: AUTOMATION ENGINEER SCADA PANEL
+     **************************************************************/
+    const plcOutputText = document.getElementById('plc-output-text');
+    const plcStatusTag = document.getElementById('plc-status-tag');
+
+    function runPlcCommand(cmd) {
+      const responses = {
+        luck: {
+          text: 'ERROR: LUCK MODULE NOT INSTALLED.',
+          color: 'text-[#ff2a54]',
+          status: 'FAULT_CODE_404',
+          sfx: 'error'
+        },
+        destiny: {
+          text: 'WARNING: ORIGINAL MANUFACTURER NOT FOUND.',
+          color: 'text-[#ffb800]',
+          status: 'OEM_MISSING',
+          sfx: 'error'
+        },
+        optimize: {
+          text: 'PROCESSING... STILL WAITING...',
+          color: 'text-[#00f0ff]',
+          status: 'BUSY_INFINITE_LOOP',
+          sfx: 'notify'
+        },
+        diagnostic: {
+          text: 'RESULT: HUMAN FUNCTIONING NORMALLY. LUCK FUNCTION NOT AVAILABLE.',
+          color: 'text-[#00ff88]',
+          status: 'DIAGNOSTIC_COMPLETE',
+          sfx: 'achievement'
+        }
+      };
+
+      const res = responses[cmd];
+      if (!res) return;
+
+      playSfx(res.sfx);
+      plcStatusTag.textContent = res.status;
+      plcOutputText.className = `text-base sm:text-xl font-bold min-h-[36px] flex items-center ${res.color}`;
+      plcOutputText.textContent = `> ${res.text}`;
+    }
+
+    /**************************************************************
+     * 5. PART 5: THE ROAST ZONE (NON-REPEATING RANDOM GENERATOR)
+     **************************************************************/
+    const roastList = [
+      "Chúc mừng sinh nhật! 20 tuổi rồi, hy vọng vận may cũng chịu lớn theo.",
+      "Người ta sinh ra để thay đổi thế giới. Ông sinh ra để thế giới có thêm một vấn đề cần giải quyết.",
+      "13/11 không đáng sợ. Đáng sợ là tôi đã làm bạn với ông suốt 10 năm.",
+      "Chúc tuổi mới thành công, giàu có và đặc biệt là bớt làm phiền hệ thống vũ trụ.",
+      "20 năm trước, vũ trụ tạo ra Dillon. 10 năm trước, tôi quyết định không né tránh sai lầm đó.",
+      "Đời người có lúc thăng lúc trầm. Riêng ông thì cần kiểm tra lại hệ thống vận may.",
+      "Nếu cuộc đời là một chương trình, hy vọng ông không phải phiên bản beta.",
+      "Chúc ông sớm có công việc tốt, thu nhập cao và không phải gọi tôi vay tiền.",
+      "Ngày 13/11 có thể là ngày xui xẻo, nhưng ít nhất ông vẫn may mắn vì có một người bạn tốt như tôi.",
+      "Achievement unlocked: Another year of being Dillon."
+    ];
+
+    let lastRoastIndex = 0;
+    const roastDisplayText = document.getElementById('roast-display-text');
+    const roastIndexBadge = document.getElementById('roast-index-badge');
+
+    document.getElementById('btn-random-roast').addEventListener('click', () => {
+      let nextIndex;
+      do {
+        nextIndex = Math.floor(Math.random() * roastList.length);
+      } while (nextIndex === lastRoastIndex && roastList.length > 1);
+
+      lastRoastIndex = nextIndex;
+      playSfx('notify');
+
+      // Cyber scramble transition effect
+      roastDisplayText.classList.add('opacity-20', 'scale-95', 'transition-all', 'duration-150');
+      setTimeout(() => {
+        roastDisplayText.textContent = `"${roastList[nextIndex]}"`;
+        roastIndexBadge.textContent = `#${String(nextIndex + 1).padStart(2, '0')} / 10`;
+        roastDisplayText.classList.remove('opacity-20', 'scale-95');
+      }, 150);
+    });
+
+    /**************************************************************
+     * 6. PART 6: REMOVE BAD LUCK INTERACTION
+     **************************************************************/
+    const btnRemoveLuck = document.getElementById('btn-remove-luck');
+    const btnRetryLuck = document.getElementById('btn-retry-luck');
+    const badLuckPanel = document.getElementById('bad-luck-panel');
+    const badLuckTriggerWrap = document.getElementById('bad-luck-trigger-wrap');
+    const badLuckProgressWrap = document.getElementById('bad-luck-progress-wrap');
+    const badLuckProgressBar = document.getElementById('bad-luck-progress-bar');
+    const badLuckScanPercent = document.getElementById('bad-luck-scan-percent');
+    const badLuckScanStatus = document.getElementById('bad-luck-scan-status');
+    const badLuckResultWrap = document.getElementById('bad-luck-result-wrap');
+
+    function startBadLuckRemoval() {
+      badLuckTriggerWrap.classList.add('hidden');
+      badLuckResultWrap.classList.add('hidden');
+      badLuckProgressWrap.classList.remove('hidden');
+      badLuckPanel.classList.add('shake-active');
+      playSfx('boot');
+
+      let progress = 0;
+      const scanMessages = [
+        'SCANNING 13/11 CURSE SECTORS...',
+        'LOCATING DILLON KARMA FILES...',
+        'ATTEMPTING TO INSTALL LUCK.DLL...',
+        'BYPASSING UNIVERSE FIREWALL...',
+        'CRITICAL FAILURE DETECTED...'
+      ];
+
+      const interval = setInterval(() => {
+        progress += 5;
+        badLuckProgressBar.style.width = `${progress}%`;
+        badLuckScanPercent.textContent = `${progress}%`;
+        const msgIdx = Math.min(scanMessages.length - 1, Math.floor(progress / 22));
+        badLuckScanStatus.textContent = scanMessages[msgIdx];
+
+        if (progress >= 100) {
+          clearInterval(interval);
+          badLuckPanel.classList.remove('shake-active');
+          badLuckProgressWrap.classList.add('hidden');
+          badLuckResultWrap.classList.remove('hidden');
+          playSfx('error');
+          showCyberToast('ERROR 404: LUCK NOT FOUND IN DILLON!', 'red');
+        }
+      }, 95);
+    }
+
+    btnRemoveLuck.addEventListener('click', startBadLuckRemoval);
+    btnRetryLuck.addEventListener('click', startBadLuckRemoval);
+
+    /**************************************************************
+     * 7. PART 7: BIRTHDAY CAKE & CELEBRATION
+     **************************************************************/
+    let candlesBlown = false;
+    const cakeFlames = document.getElementById('cake-flames');
+    const cakeSmoke = document.getElementById('cake-smoke');
+    const cakeStatusHint = document.getElementById('cake-status-hint');
+    const btnBlowCandles = document.getElementById('btn-blow-candles');
+    const wishResponseBox = document.getElementById('wish-response-box');
+
+    function blowOutCandles() {
+      if (!candlesBlown) {
+        candlesBlown = true;
+        cakeFlames.classList.add('hidden');
+        cakeSmoke.classList.remove('hidden');
+        cakeStatusHint.textContent = '🎉 Nến đã tắt! Chúc mừng sinh nhật tuổi 20 rực rỡ nhé Long (Dillon)!';
+        btnBlowCandles.textContent = '[ THẮP LẠI NẾN & BẮN PHÁO HOA ]';
+        playSfx('confetti');
+        launchConfettiBurst(130);
+        launchFireworksShow();
+        showCyberToast('LEVEL 20 UNLOCKED! HAPPY BIRTHDAY DILLON!', 'cyan');
+      } else {
+        // Relight candles if clicked again
+        candlesBlown = false;
+        cakeFlames.classList.remove('hidden');
+        cakeSmoke.classList.add('hidden');
+        cakeStatusHint.textContent = '[ Nhấn trực tiếp vào bánh hoặc nút bên dưới để thổi nến! ]';
+        btnBlowCandles.textContent = '[ BLOW THE CANDLES ]';
+        playSfx('notify');
+      }
+    }
+
+    function triggerMakeAWish() {
+      playSfx('achievement');
+      wishResponseBox.classList.remove('hidden');
+      launchConfettiBurst(60);
+    }
+
+    document.getElementById('btn-hero-confetti').addEventListener('click', () => {
+      playSfx('confetti');
+      launchConfettiBurst(90);
+    });
+
+    /**************************************************************
+     * 8. PART 9: RESTART EXPERIENCE
+     **************************************************************/
+    document.getElementById('btn-restart-experience').addEventListener('click', () => {
+      playSfx('boot');
+      // Reset cake & bad luck states
+      candlesBlown = false;
+      cakeFlames.classList.remove('hidden');
+      cakeSmoke.classList.add('hidden');
+      btnBlowCandles.textContent = '[ BLOW THE CANDLES ]';
+      wishResponseBox.classList.add('hidden');
+      badLuckTriggerWrap.classList.remove('hidden');
+      badLuckResultWrap.classList.add('hidden');
+      badLuckProgressWrap.classList.add('hidden');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        bootScreen.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+        runBootSequence();
+      }, 450);
+    });
+
+    /**************************************************************
+     * 9. RANDOM CYBER TOAST NOTIFICATIONS (5 REQUIRED MESSAGES)
+     **************************************************************/
+    const requiredNotifications = [
+      { text: "WARNING: DILLON DETECTED.", theme: "red" },
+      { text: "YOUR LUCK IS CURRENTLY OFFLINE.", theme: "amber" },
+      { text: "FRIENDSHIP.EXE HAS BEEN RUNNING FOR 10 YEARS.", theme: "cyan" },
+      { text: "SYSTEM ERROR: TOO MUCH DILLON DETECTED.", theme: "purple" },
+      { text: "NEW ACHIEVEMENT: STILL ALIVE.", theme: "green" }
+    ];
+
+    let toastQueueIndex = 0;
+    let toastTimerId = null;
+
+    function showCyberToast(message, theme = 'cyan') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+
+      const borderMap = {
+        red: 'border-[#ff2a54] text-[#ff2a54]',
+        cyan: 'border-[#00f0ff] text-[#00f0ff]',
+        green: 'border-[#00ff88] text-[#00ff88]',
+        purple: 'border-[#b829ff] text-[#b829ff]',
+        amber: 'border-[#ffb800] text-[#ffb800]'
+      };
+
+      toast.className = `pointer-events-auto cyber-card rounded-xl p-3.5 border-l-4 ${borderMap[theme] || borderMap.cyan} shadow-xl flex items-center justify-between gap-3 transition-all duration-300 transform translate-x-0`;
+      toast.innerHTML = `
+        <div class="font-mono text-xs font-bold tracking-wide">
+          <span class="block text-[10px] text-slate-400 uppercase">SYSTEM_NOTIFICATION</span>
+          <span class="text-white">${message}</span>
+        </div>
+        <button class="text-slate-400 hover:text-white text-xs font-mono px-1 cursor-pointer" onclick="this.parentElement.remove()">✕</button>
+      `;
+
+      container.appendChild(toast);
+      playSfx('notify');
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-x-4');
+        setTimeout(() => toast.remove(), 300);
+      }, 5200);
+    }
+
+    function scheduleRandomToasts() {
+      if (toastTimerId) clearInterval(toastTimerId);
+      // Show first notification shortly after entering
+      setTimeout(() => {
+        const item = requiredNotifications[toastQueueIndex % requiredNotifications.length];
+        toastQueueIndex++;
+        showCyberToast(item.text, item.theme);
+      }, 3500);
+
+      toastTimerId = setInterval(() => {
+        const item = requiredNotifications[toastQueueIndex % requiredNotifications.length];
+        toastQueueIndex++;
+        showCyberToast(item.text, item.theme);
+      }, 15000);
+    }
+
+    /**************************************************************
+     * 10. CUSTOM IMAGE PREVIEW HELPER FOR PHOTO SLOTS
+     **************************************************************/
+    function previewCustomImage(event, imgId, fallbackId) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const imgEl = document.getElementById(imgId);
+        const fallbackEl = document.getElementById(fallbackId);
+        if (imgEl && fallbackEl) {
+          imgEl.src = e.target.result;
+          imgEl.classList.remove('hidden');
+          fallbackEl.classList.add('hidden');
+          showCyberToast('IMAGE LOADED SUCCESSFULLY!', 'green');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    /**************************************************************
+     * 11. CANVAS FX ENGINE: AMBIENT PARTICLES, CONFETTI & FIREWORKS
+     **************************************************************/
+    const canvas = document.getElementById('fx-canvas');
+    const ctx = canvas.getContext('2d');
+    let ambientParticles = [];
+    let confettiParticles = [];
+    let fireworkParticles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Create subtle ambient floating cyber dust
+    for (let i = 0; i < 36; i++) {
+      ambientParticles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.8 + 0.6,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        color: ['#00f0ff', '#b829ff', '#ff2a54'][Math.floor(Math.random() * 3)]
+      });
+    }
+
+    function launchConfettiBurst(count = 80) {
+      const colors = ['#00f0ff', '#ff2a54', '#b829ff', '#00ff88', '#ffb800', '#ffffff'];
+      for (let i = 0; i < count; i++) {
+        confettiParticles.push({
+          x: canvas.width / 2 + (Math.random() - 0.5) * 180,
+          y: canvas.height * 0.55,
+          vx: (Math.random() - 0.5) * 14,
+          vy: -(Math.random() * 12 + 5),
+          size: Math.random() * 8 + 5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          vRot: (Math.random() - 0.5) * 12,
+          alpha: 1
+        });
+      }
+    }
+
+    function launchFireworksShow() {
+      const colors = ['#00f0ff', '#ff2a54', '#ffb800', '#00ff88', '#b829ff'];
+      for (let burst = 0; burst < 4; burst++) {
+        setTimeout(() => {
+          const cx = canvas.width * (0.2 + Math.random() * 0.6);
+          const cy = canvas.height * (0.18 + Math.random() * 0.35);
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          for (let i = 0; i < 48; i++) {
+            const angle = (Math.PI * 2 * i) / 48;
+            const speed = Math.random() * 5.5 + 1.5;
+            fireworkParticles.push({
+              x: cx,
+              y: cy,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+              color,
+              alpha: 1,
+              size: Math.random() * 3 + 1.5
+            });
+          }
+          playSfx('confetti');
+        }, burst * 420);
+      }
+    }
+
+    function animateCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // 1. Ambient Cyber Particles
+      ambientParticles.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+
+        ctx.globalAlpha = 0.45;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // 2. Confetti Particles
+      for (let i = confettiParticles.length - 1; i >= 0; i--) {
+        const c = confettiParticles[i];
+        c.x += c.vx;
+        c.y += c.vy;
+        c.vy += 0.32; // gravity
+        c.rotation += c.vRot;
+        c.alpha -= 0.008;
+
+        if (c.alpha <= 0 || c.y > canvas.height + 40) {
+          confettiParticles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, c.alpha);
+        ctx.translate(c.x, c.y);
+        ctx.rotate((c.rotation * Math.PI) / 180);
+        ctx.fillStyle = c.color;
+        ctx.fillRect(-c.size / 2, -c.size / 2, c.size, c.size * 0.6);
+        ctx.restore();
+      }
+
+      // 3. Firework Sparks
+      for (let i = fireworkParticles.length - 1; i >= 0; i--) {
+        const fw = fireworkParticles[i];
+        fw.x += fw.vx;
+        fw.y += fw.vy;
+        fw.vy += 0.06;
+        fw.alpha -= 0.016;
+
+        if (fw.alpha <= 0) {
+          fireworkParticles.splice(i, 1);
+          continue;
+        }
+
+        ctx.globalAlpha = Math.max(0, fw.alpha);
+        ctx.fillStyle = fw.color;
+        ctx.beginPath();
+        ctx.arc(fw.x, fw.y, fw.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(animateCanvas);
+    }
+
+    /**************************************************************
+     * 12. SCROLL REVEAL, BACK TO TOP, MOBILE NAV & CUSTOM CURSOR
+     **************************************************************/
+    const revealElements = document.querySelectorAll('.reveal-item');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealElements.forEach((el) => revealObserver.observe(el));
+
+    // Back to top button visibility
+    const btnBackToTop = document.getElementById('btn-back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        btnBackToTop.classList.remove('opacity-0', 'pointer-events-none');
+      } else {
+        btnBackToTop.classList.add('opacity-0', 'pointer-events-none');
+      }
+    });
+
+    // Mobile Menu Drawer
+    const btnMobileMenu = document.getElementById('btn-mobile-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+    btnMobileMenu.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // Custom Cyber Cursor
+    const cyberCursor = document.getElementById('cyber-cursor');
+    window.addEventListener('mousemove', (e) => {
+      cyberCursor.style.left = `${e.clientX}px`;
+      cyberCursor.style.top = `${e.clientY}px`;
+    });
+
+    window.onload = function () {
+      runBootSequence();
+      animateCanvas();
+    };
+  </script>
+</body>
+</html>
